@@ -5,40 +5,36 @@ const MessageForm = ( props ) => {
   const { addMessage, username } = props;
   const [ messageInput, setMessageInput ] = useState('');
   
-  const updateMessageInput = ( message ) => {
+  const handleInputChange = ( message ) => {
     setMessageInput(message);
   };
   
   const isDisabled = () => {
-    const disable = messageInput.trim() === '';
-    
-    return disable;
+    return messageInput.trim() === '';
   };
   
   const resetMessageInput = () => {
     setMessageInput('');
   };
   
-  const updateMessages = ( event ) => {
+  const handleSubmit = ( event ) => {
     event.preventDefault();
-    const { messageInput } = event.target.form.elements;
     
-    addMessage( username, messageInput.value );
+    addMessage( username, messageInput );
     resetMessageInput();
   };
   
   return (
-    <form className="input-group">
+    <form className="input-group" onSubmit={ handleSubmit }>
       <input type="text" 
     		className="form-control"
     		name="messageInput"
     		placeholder="Enter your message..."
     		value={ messageInput } 
-			onChange={ event => updateMessageInput(event.target.value) } />
+			onChange={ event => handleInputChange(event.target.value) } />
       <div className="input-group-append">
       	<button className="btn submit-button" 
-				disabled={ isDisabled() }
-                onClick={ updateMessages } >SEND</button>
+				disabled={ isDisabled() }>SEND</button>
       </div>
 	</form>
   );
